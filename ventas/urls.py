@@ -1,4 +1,4 @@
-"""ventas URL Configuration
+"""producto URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
@@ -15,7 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from appVenta import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.index),
+    path('productos', views.listadoProducto),
+    path('agregarProducto', views.agregarProductos),
+    path('actualizarProducto/<int:id>', views.actualizarProductos),
+    path('eliminarProducto/<int:id>', views.eliminarProductos),
+    path('princi/', views.Tabla),
+    path('ag/', views.agClientes),
+    path('actu/<int:id>', views.actualizarCli),
+    path('borrar/<int:id>', views.borrarCli),
 ]
