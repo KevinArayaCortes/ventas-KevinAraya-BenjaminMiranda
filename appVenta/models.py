@@ -76,7 +76,7 @@ class Cliente(models.Model):
     )
 
     def __str__(self):
-        return f"{self.id} - {self.nombre}"
+        return f"{self.nombre} {self.apellido}"
 
 # Modelo de Pedido
 class Pedido(models.Model):
