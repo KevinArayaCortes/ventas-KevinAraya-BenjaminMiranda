@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from appVenta.forms import ProductoForm, FormCliente
-from appVenta.models import Producto, Cliente
+from appVenta.forms import ProductoForm, FormCliente, PedidoForm
+from appVenta.models import Producto, Cliente, Pedido
 
 def index(request):
     return render(request, 'appVenta/index.html')
@@ -67,3 +67,36 @@ def borrarCli(request, id):
     cliente =  Cliente.objects.get(id = id)
     cliente.delete()
     return redirect('/princi')
+
+def listadoPedido(request):
+    pedidos = Pedido.objects.all()
+    data = {'pedidos': pedidos}
+    return render(request, 'appVenta/pedido.html', data)
+
+def agregarPedido(request):
+    form = PedidoForm()
+    if request.method == 'POST':
+        form = PedidoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/pedido')
+        else:
+            return render(request, 'appVenta/agregarPedido.html', {'form': form})
+    data = {'form': form}
+    return render(request, 'appVenta/agregarPedido.html', data)
+
+def actualizarPedido(request, id):
+    pedido = Pedido.objects.get(id=id)
+    form = PedidoForm(instance=pedido)
+    if request.method == 'POST':
+        form = PedidoForm(request.POST, instance=pedido)
+        if form.is_valid():
+            form.save()
+            return redirect('/pedido')
+    data = {'form': form}
+    return render(request, 'appVenta/agregarPedido.html', data)
+
+def eliminarPedido(request, id):
+    pedido = Pedido.objects.get(id=id)
+    pedido.delete()
+    return redirect('/pedido')

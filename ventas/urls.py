@@ -28,4 +28,8 @@ urlpatterns = [
     path('ag/', views.agClientes),
     path('actu/<int:id>', views.actualizarCli),
     path('borrar/<int:id>', views.borrarCli),
+    path('pedido', views.listadoPedido),
+    path('agregarPedido', views.agregarPedido),
+    path('actualizarPedido/<int:id>', views.actualizarPedido),
+    path('eliminarPedido/<int:id>', views.eliminarPedido),
 ]

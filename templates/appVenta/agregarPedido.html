@@ -7,11 +7,14 @@
     <title>Document</title>
 </head>
 <body class="container mt-5">
-    <div class="alert alert-info display-1 text-center">Sistema Administrador</div>
+    <div class="alert alert-info display-1 text-center">Lista de Pedidos</div>
     
-    <a href="/productos" class="btn btn-info">Productos</a>
-    <a href="/princi/" class="btn btn-info">Clientes</a>
-    <a href="/pedido" class="btn btn-info">Pedidos</a>
+    <form method = 'POST'>
+        {{ form.as_p }}
+        {% csrf_token %}
+        <input type="submit" class=" btn btn-info" value="Agregar Pedido">
+    </form>
 
+    <a href="../pedido" class="btn btn-info mt-5">Pedido</a>
 </body>
 </html>
