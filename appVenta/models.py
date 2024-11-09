@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator, MinLengthValidator
 
-# Create your models here.
+# Modelo de Producto
 class Producto(models.Model):
     Tipo = models.CharField(
         max_length=20,
@@ -43,8 +43,9 @@ class Producto(models.Model):
     )
 
     def __str__(self):
-        return self.Nombre
+        return f"{self.id} - {self.Nombre}"
 
+# Modelo de Cliente
 class Cliente(models.Model):
     nombre = models.CharField(
         max_length=50,
@@ -75,39 +76,25 @@ class Cliente(models.Model):
     )
 
     def __str__(self):
-        return f"{self.nombre} {self.apellido}"
+        return f"{self.id} - {self.nombre}"
 
+# Modelo de Pedido
 class Pedido(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     fecha = models.DateField()
+    cantidad_productos = models.IntegerField(
+        validators=[MinValueValidator(1, message='La cantidad debe ser al menos 1.')]
+    )
     descripcion = models.CharField(
-        max_length=255,
-        validators=[
-            MinLengthValidator(5, message='La descripción debe tener al menos 5 caracteres.')
-        ]
+        max_length=200,
+        validators=[MinLengthValidator(5)]
     )
     estado = models.CharField(
         max_length=20,
-        validators=[
-            RegexValidator(
-                regex='^[A-Za-z ]+$',
-                message='El estado solo debe contener letras y espacios.'
-            )
-        ]
+        validators=[MinLengthValidator(3)]
     )
 
-    def __str__(self):
-        return f"Pedido {self.id} de {self.cliente}"
-
-class PedidoProducto(models.Model):
+# Modelo de Pedido_Producto
+class Pedido_Producto(models.Model):
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
-    cantidad_productos = models.PositiveIntegerField(
-        validators=[
-            MinValueValidator(1, message='La cantidad debe ser al menos 1.'),
-            MaxValueValidator(100, message='La cantidad no debe superar las 100 unidades.')
-        ]
-    )
-
-    def __str__(self):
-        return f"{self.cantidad_productos} x {self.producto} en {self.pedido}"
