@@ -89,10 +89,19 @@ class Pedido(models.Model):
         max_length=200,
         validators=[MinLengthValidator(5)]
     )
+    ESTADO_CHOICES = [
+        ('En proceso', 'En proceso'),
+        ('Enviado', 'Enviado'),
+        ('Completado', 'Completado'),
+    ]
     estado = models.CharField(
         max_length=20,
+        choices=ESTADO_CHOICES,
+        default='En proceso',
         validators=[MinLengthValidator(3)]
     )
+    def _str_(self):
+        return f"Pedido {self.id} - Estado: {self.estado}"
 
 # Modelo de Pedido_Producto
 class Pedido_Producto(models.Model):
