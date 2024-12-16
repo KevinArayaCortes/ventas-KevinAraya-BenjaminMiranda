@@ -1,12 +1,20 @@
 from django.contrib import admin
 from django.urls import path, include
-from appVenta import views  # Importa las vistas de la app appVenta
-from Api import views as api_views  # Importa las vistas de la app Api
+from rest_framework.routers import DefaultRouter
+from Api import views as api_views
+from appVenta import views
+
+# Configuración del router
+router = DefaultRouter()
+router.register(r'productos', api_views.ProductoViewSet, basename='producto')
+router.register(r'clientes', api_views.ClienteViewSet, basename='cliente')
+router.register(r'pedidos', api_views.PedidoViewSet, basename='pedido')
+router.register(r'pedidos-productos', api_views.Pedido_ProductoViewSet, basename='pedido-producto')
 
 urlpatterns = [
     # Admin y vistas antiguas
     path('admin/', admin.site.urls),
-    path('', views.index),
+    path('a', views.index),
     path('productos', views.listadoProducto),
     path('agregarProducto', views.agregarProductos),
     path('actualizarProducto/<int:id>', views.actualizarProductos),
@@ -20,13 +28,6 @@ urlpatterns = [
     path('actualizarPedido/<int:id>', views.actualizarPedido),
     path('eliminarPedido/<int:id>', views.eliminarPedido),
 
-    # Nuevas rutas de la API REST
-    path('api/productos/', api_views.producto_list, name='producto-list'),
-    path('api/productos/<int:pk>/', api_views.producto_detail, name='producto-detail'),
-    path('api/clientes/', api_views.cliente_list, name='cliente-list'),
-    path('api/clientes/<int:pk>/', api_views.cliente_detail, name='cliente-detail'),
-    path('api/pedidos/', api_views.pedido_list, name='pedido-list'),
-    path('api/pedidos/<int:pk>/', api_views.pedido_detail, name='pedido-detail'),
-    path('api/pedidos-productos/', api_views.pedido_producto_list, name='pedido-producto-list'),
-    path('api/pedidos-productos/<int:pk>/', api_views.pedido_producto_detail, name='pedido-producto-detail'),
+    # Nuevas rutas de la API REST usando el router
+    path('', include(router.urls)),  # Incluye las rutas generadas por el router
 ]
