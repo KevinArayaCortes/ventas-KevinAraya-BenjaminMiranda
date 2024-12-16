@@ -82,9 +82,11 @@ WSGI_APPLICATION = 'ventas.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Ventas',
+        'NAME': 'eva4-ventas',
         'USER':'root',
-        'PASSWORD':'',
+        'PASSWORD':'admin12.12,',
+        'HOST':'localhost',
+        'PORT':'3306'
     }
 }
 
